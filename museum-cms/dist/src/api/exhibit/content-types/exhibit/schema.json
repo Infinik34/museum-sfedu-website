@@ -1,0 +1,50 @@
+{
+    "kind": "collectionType",
+    "collectionName": "exhibits",
+    "info": {
+        "singularName": "exhibit",
+        "pluralName": "exhibits",
+        "displayName": "Экспонаты"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "slug": {
+            "type": "uid",
+            "targetField": "title",
+            "required": true
+        },
+        "description": {
+            "type": "text"
+        },
+        "fullDescription": {
+            "type": "richtext"
+        },
+        "year": {
+            "type": "integer"
+        },
+        "image": {
+            "type": "media",
+            "multiple": false,
+            "allowedTypes": [
+                "images"
+            ]
+        },
+        "isDisplayed": {
+            "type": "boolean",
+            "default": true
+        },
+        "categories": {
+            "type": "relation",
+            "relation": "manyToMany",
+            "target": "api::category.category",
+            "mappedBy": "exhibits"
+        }
+    }
+}

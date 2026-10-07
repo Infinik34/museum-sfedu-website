@@ -1,0 +1,18 @@
+{
+  "kind": "singleType",
+  "collectionName": "nastrojka_straniczy_istoriis",
+  "info": {
+    "singularName": "nastrojka-straniczy-istorii",
+    "pluralName": "nastrojka-straniczy-istoriis",
+    "displayName": "Настройка страницы истории"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "text": {
+      "type": "text"
+    }
+  }
+}

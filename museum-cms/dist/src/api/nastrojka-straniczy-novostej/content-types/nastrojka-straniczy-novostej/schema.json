@@ -1,0 +1,53 @@
+{
+    "kind": "singleType",
+    "collectionName": "nastrojka_straniczy_novostejs",
+    "info": {
+        "singularName": "nastrojka-straniczy-novostej",
+        "pluralName": "nastrojka-straniczy-novostejs",
+        "displayName": "Настройка страницы новостей"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "titleMainPage": {
+            "type": "string",
+            "required": false
+        },
+        "descriptionMainPage": {
+            "type": "text"
+        },
+        "backgroundMainPage": {
+            "type": "enumeration",
+            "enum": [
+                "dark",
+                "navy",
+                "blue"
+            ]
+        },
+        "titleDetailPage": {
+            "type": "string"
+        },
+        "descriptionDetailPage": {
+            "type": "text"
+        },
+        "backgroundDetailPage": {
+            "type": "enumeration",
+            "enum": [
+                "dark",
+                "navy",
+                "blue"
+            ]
+        },
+        "backgroundForTitleMainPage": {
+            "type": "enumeration",
+            "enum": [
+                "dark",
+                "navy/20",
+                "blue",
+                "white"
+            ]
+        }
+    }
+}
