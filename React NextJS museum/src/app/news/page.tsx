@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@heroui/react';
 import { getNews, getNewsPageSettings } from '@/lib/strapiApi';
+import NewsDateFilter from '../components/NewsDateFilter';
 
 
 type StrapiNews = {
@@ -45,10 +46,18 @@ function getStrapiMedia(url: string | null): string {
 
 
 
-export default async function NewsPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
-  const { page = '1' } = await searchParams;
-  const { data: news, meta } = await getNews(Number(page));
-  const settings: StrapiSettingsNews = await getNewsPageSettings()
+export default async function NewsPage({
+  searchParams, }: {
+    searchParams: Promise<{ page?: string; from?: string; to?: string }>
+  }) // Добавили from и to
+{
+  const { page = '1', from, to } = await searchParams;
+
+  // Передаем даты в getNews (нужно обновить саму функцию, см. шаг 3)
+  const [{ data: news, meta }, settings] = await Promise.all([
+    getNews(Number(page), from, to),
+    getNewsPageSettings(),
+  ]);
   return (
 
     // Если значения bg нет или пустая строка - по дефолту dark
@@ -68,6 +77,17 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
           </p>
         </div>
       </section>
+
+
+
+      <section className="navy/20 border-b border-gray-800">
+        <div className="max-w-7xl mx-auto px-[15px] min-[1312]:px-0 py-12 md:py-16">
+          {/* Фильтр по датам */}
+          <NewsDateFilter />
+        </div>
+      </section>
+
+
 
       {/* Список новостей */}
       <section className="py-16 px-4">
@@ -141,17 +161,13 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
           {/* Пагинация */}
           <div className="flex justify-center gap-2 pt-8">
             {Number(page) > 1 && (
-              <Link href={`/news?page=${Number(page) - 1}`}>
-                <span className="px-6 py-3 rounded-lg bg-museum-blue text-white hover:bg-blue-600 transition-colors">
-                  Назад
-                </span>
+              <Link href={`/news?page=${Number(page) - 1}${from ? `&from=${from}` : ''}${to ? `&to=${to}` : ''}`} className="">
+                <span className="px-6 py-3 rounded-lg bg-museum-blue text-white hover:bg-blue-600 transition-colors">Назад</span>
               </Link>
             )}
             {Number(page) < meta.pagination.pageCount && (
-              <Link href={`/news?page=${Number(page) + 1}`}>
-                <span className="px-6 py-3 rounded-lg bg-museum-blue text-white hover:bg-blue-600 transition-colors">
-                  Далее
-                </span>              
+              <Link href={`/news?page=${Number(page) + 1}${from ? `&from=${from}` : ''}${to ? `&to=${to}` : ''}`}>
+                <span className="px-6 py-3 rounded-lg bg-museum-blue text-white hover:bg-blue-600 transition-colors">Далее</span>
               </Link>
             )}
           </div>

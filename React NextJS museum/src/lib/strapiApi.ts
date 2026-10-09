@@ -4,7 +4,7 @@ const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'
 async function fetchStrapi<T>(endpoint: string, params?: Record<string, string>): Promise<T> {
   const queryString = params ? '?' + new URLSearchParams(params).toString() : '';
   const url = `${STRAPI_URL}${endpoint}${queryString}`;
-  
+
   const res = await fetch(url, {
     next: { revalidate: 60 }, // ISR: кэш на 1 минуту (был час 3600)
     cache: 'force-cache',
@@ -48,8 +48,8 @@ export type ExhibitItem = {
   categories: CategoryItem[];
   year: number | null;
   isDisplayed: boolean;
-  image: { 
-    url: string; 
+  image: {
+    url: string;
     alternativeText: string | null;
     caption?: string | null;
   } | null;
@@ -63,18 +63,45 @@ export type CategoryItem = {
   isMain: boolean;
 };
 
-// --- Готовые функции для каждого раздела ---
-
 /** Получить список новостей */
-export async function getNews(page = 1, pageSize = 10) {
-  return fetchStrapi<{ data: NewsItem[]; meta: any }>('/api/news-items', {
-    'populate': 'image',
-    'filters[isPublished][$eq]': 'true',
-    'sort[publishedAt]': 'desc',
-    'pagination[page]': page.toString(),
-    'pagination[pageSize]': pageSize.toString(),
-  });
+// Версия до новостей по фильтру
+// export async function getNews(page = 1, pageSize = 10) {
+//   return fetchStrapi<{ data: NewsItem[]; meta: any }>('/api/news-items', {
+//     'populate': 'image',
+//     'filters[isPublished][$eq]': 'true',
+//     'sort[publishedAt]': 'desc',
+//     'pagination[page]': page.toString(),
+//     'pagination[pageSize]': pageSize.toString(),
+//   });
+// }
+
+export async function getNews(page: number = 1, from?: string | null, to?: string | null) {
+  const baseUrl = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/news-items`;
+
+  let query = `?pagination[page]=${page}&pagination[pageSize]=9&sort=publishedAt:desc&populate=image`;
+
+  // Фильтрация по диапазону дат
+  if (from) {
+    query += `&filters[publishedAt][$gte]=${encodeURIComponent(from)}`;
+  }
+  if (to) {
+    query += `&filters[publishedAt][$lte]=${encodeURIComponent(to)}`;
+  }
+
+  try {
+    const res = await fetch(`${baseUrl}${query}`, {
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) throw new Error(`Failed to fetch news: ${res.status}`);
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching news:", error);
+    return { data: [], meta: { pagination: { page: 1, pageSize: 9, pageCount: 0, total: 0 } } };
+  }
 }
+
+
 
 /** Получить одну новость по slug */
 export async function getNewsBySlug(slug: string) {
@@ -101,13 +128,9 @@ export async function getStaff() {
   };
 }
 
-/** Получить список экспонатов */
-// lib/strapiApi.ts
-// lib/strapiApi.ts
-
 export async function getExhibits(categorySlugs?: string[]) {
   const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
-  
+
   // 1. Собираем базовые параметры
   const parts = [
     'populate[image]=true',
@@ -131,14 +154,14 @@ export async function getExhibits(categorySlugs?: string[]) {
   // 3. Формируем URL
   const queryString = parts.join('&');
   const url = `${baseUrl}/api/exhibits?${queryString}`;
-  
+
   console.log('🔍 Strapi Request:', url);
 
   const res = await fetch(url, {
     headers: { 'Content-Type': 'application/json' },
     next: { revalidate: 0 }
   });
-  
+
   if (!res.ok) {
     const errorText = await res.text();
     console.error('Strapi Error:', errorText);
@@ -157,15 +180,15 @@ export async function getExhibitBySlug(slug: string) {
   });
 
   const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/exhibits?${params.toString()}`;
-  
+
   const res = await fetch(url);
   if (!res.ok) return null;
-  
+
   const json = await res.json();
-  
+
   const item = json.data?.[0];
   if (!item || !item.title) return null;
-  
+
   return item;
 }
 
