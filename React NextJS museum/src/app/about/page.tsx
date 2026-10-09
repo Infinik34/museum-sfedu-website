@@ -1,7 +1,5 @@
 // app/about/page.tsx
 import { Metadata } from 'next';
-import Image from 'next/image';
-import mus_ins from '@/../public/museum_inside.jpg';
 
 export const metadata: Metadata = {
   title: 'О нас | Политехнический музей ЮФУ',

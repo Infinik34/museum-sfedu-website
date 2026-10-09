@@ -1,7 +1,6 @@
 `use client`
 import { Button, Card } from "@heroui/react";
 import Link from "next/link";
-import mus_ins from '@/../public/museum_inside.jpg'
 import Image from "next/image";
 import { getMainPageSettings } from "@/lib/strapiApi";
 
@@ -40,7 +39,7 @@ export default async function Home() {
           <div className="order-2 lg:order-1">
             <div className="relative rounded-2xl overflow-hidden border border-museum-blue/20 shadow-2xl shadow-museum-blue/10 h-[500px] lg:h-[835px]">
               <Image
-                src={mus_ins}
+                src="/museum_inside.jpg"
                 alt="Интерьер Политехнического музея"
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"

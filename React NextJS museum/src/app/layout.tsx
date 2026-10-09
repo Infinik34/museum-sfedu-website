@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { HeroUIProvider } from "@heroui/system";
 import "./globals.css";
 import Header from "./components/UI/header";
 import Footer from "./components/UI/footer";
@@ -33,13 +32,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <HeroUIProvider>
           <Header/>
           <main className="grow">
             {children}
           </main>
           <Footer/>
-        </HeroUIProvider>
       </body>
     </html>
   );

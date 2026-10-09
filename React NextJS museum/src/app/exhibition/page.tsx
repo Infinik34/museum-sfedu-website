@@ -1,4 +1,3 @@
-// app/exhibits/page.tsx
 import { getExhibits, getCategories } from '@/lib/strapiApi';
 import ExhibitsClient from '@/app/components/ExhibitsClient';
 import Link from 'next/link';
@@ -38,7 +37,7 @@ export default async function ExhibitsPage({ searchParams }: {
         <div className="max-w-7xl mx-auto">
           <ExhibitsClient
             initialExhibits={exhibitsRes.data}
-            categories={categoriesRes.data} // ✅ Передаём живые данные из БД
+            categories={categoriesRes.data}
           />
         </div>
       </section>

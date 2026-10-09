@@ -157,7 +157,7 @@ export default function ReservationPage() {
                   }
                 }}
                 minValue={today(getLocalTimeZone())}
-                className="w-full"
+                className="w-full m-7 text-lg max-w-[400px] m-0!"
                 isDateUnavailable={(date) => isDateBooked(date)}
               >
                 <Calendar.Header>
@@ -176,7 +176,8 @@ export default function ReservationPage() {
                       const isSelected = selectedDate?.compare(date) === 0;
 
                       return (
-                        <Calendar.Cell date={date}>
+                        <Calendar.Cell
+                          date={date}>
                           {({ isSelected: cellSelected, isDisabled }) => (
                             <div className={`w-8 h-8 flex items-center justify-center rounded-full transition-all
                                 ${isBooked
