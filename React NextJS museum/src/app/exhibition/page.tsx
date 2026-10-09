@@ -17,7 +17,7 @@ export default async function ExhibitsPage({ searchParams }: {
   return (
     <main className="min-h-screen bg-museum-dark text-museum-text">
       <section className="bg-gradient-to-b from-museum-navy/30 to-transparent border-b border-gray-800/50">
-        <div className="max-w-7xl mx-auto py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-[15px] min-[1312]:px-0 py-12 md:py-16">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
             Экспонаты музея
           </h1>

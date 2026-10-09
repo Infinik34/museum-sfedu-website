@@ -56,7 +56,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
       {/* Заголовок страницы */}
       {/* Если значения bg нет или пустая строка - по дефолту темно-синий с 20% прозрачности*/}
       <section className={`bg-museum-${settings?.backgroundForTitleMainPage || 'navy/20'} border-b border-gray-800`}>
-        <div className="max-w-7xl mx-auto py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-[15px] min-[1312]:px-0 py-12 md:py-16">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-serif text-white mb-4">
             {/* Если значение заголовка не пришло - дефолтное значение (пустая строка может быть) */}
             {settings?.titleMainPage ?? 'НОВОСТИ МУЗЕЯ'}
@@ -88,7 +88,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
                 <Link href={`/news/${slug}`}>
                   <div className="md:flex">
                     {/* Изображение */}
-                    <div className="md:w-1/3 relative overflow-hidden rounded-lg aspect-4/3">
+                    <div className="md:w-1/3 relative overflow-hidden aspect-4/3">
                       <img
                         src={imageUrl}
                         alt={image?.alternativeText || title}
