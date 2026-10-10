@@ -80,19 +80,17 @@ export async function getNews(page: number = 1, from?: string | null, to?: strin
 
   let query = `?pagination[page]=${page}&pagination[pageSize]=9&sort=publishedAt:desc&populate=image`;
 
-  // Фильтрация по диапазону дат
   if (from) {
-    query += `&filters[publishedAt][$gte]=${encodeURIComponent(from)}`;
+    // Начало дня по МСК = 21:00 предыдущего дня по UTC
+    query += `&filters[publishedAt][$gte]=${encodeURIComponent(from + 'T00:00:00.000+03:00')}`;
   }
   if (to) {
-    query += `&filters[publishedAt][$lte]=${encodeURIComponent(to)}`;
+    // Конец дня по МСК = 20:59:59.999 следующего дня по UTC
+    query += `&filters[publishedAt][$lte]=${encodeURIComponent(to + 'T23:59:59.999+03:00')}`;
   }
 
   try {
-    const res = await fetch(`${baseUrl}${query}`, {
-      next: { revalidate: 60 },
-    });
-
+    const res = await fetch(`${baseUrl}${query}`, { next: { revalidate: 60 } });
     if (!res.ok) throw new Error(`Failed to fetch news: ${res.status}`);
     return res.json();
   } catch (error) {

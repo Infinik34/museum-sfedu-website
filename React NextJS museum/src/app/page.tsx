@@ -52,14 +52,14 @@ export default async function Home() {
           <div className="order-1 lg:order-2 space-y-8">
             <div className="space-y-4">
               <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold font-serif leading-tight tracking-tight">
-                {settings?.titleWhite}
+                {settings?.titleWhite ?? "ПОЛИТЕХНИЧЕСКИЙ МУЗЕЙ"}
                 <span className="text-museum-blue block mt-2">
-                  {settings?.titleBlue}
+                  {settings?.titleBlue ?? "ЮЖНОГО ФЕДЕРАЛЬНОГО УНИВЕРСИТЕТА"}
                 </span>
               </h1>
 
               <blockquote className="text-lg md:text-xl text-gray-300 border-l-4 border-museum-blue pl-6 py-2 bg-museum-navy/20 rounded-r-lg">
-                {settings.excerpt}
+                {settings?.excerpt ?? "ЕДИНСТВЕННЫЙ В СВОЕМ РОДЕ МУЗЕЙ НА ЮГЕ РОССИИ В ОБЛАСТИ НАУКИ И ТЕХНИКИ"}
               </blockquote>
             </div>
 
@@ -86,7 +86,7 @@ export default async function Home() {
               </ul>
 
               <p className="pt-4 border-t border-gray-700">
-                {settings?.description}
+                {settings?.description ?? "В экспозиции нашли отражение также история вуза и его роль в развитии науки и техники в нашей стране и за рубежом.//ДЛЯ РЕД"}
               </p>
             </div>
             <div className="flex flex-wrap gap-4 pt-2">

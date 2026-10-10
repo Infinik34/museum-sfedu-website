@@ -49,11 +49,11 @@ function getStrapiMedia(url: string | null): string {
 export default async function NewsPage({
   searchParams, }: {
     searchParams: Promise<{ page?: string; from?: string; to?: string }>
-  }) // Добавили from и to
+  }) // from и to
 {
   const { page = '1', from, to } = await searchParams;
 
-  // Передаем даты в getNews (нужно обновить саму функцию, см. шаг 3)
+  // Передаем даты в getNews
   const [{ data: news, meta }, settings] = await Promise.all([
     getNews(Number(page), from, to),
     getNewsPageSettings(),
@@ -65,7 +65,7 @@ export default async function NewsPage({
       {/* Заголовок страницы */}
       {/* Если значения bg нет или пустая строка - по дефолту темно-синий с 20% прозрачности*/}
       <section className={`bg-museum-${settings?.backgroundForTitleMainPage || 'navy/20'} border-b border-gray-800`}>
-        <div className="max-w-7xl mx-auto px-[15px] min-[1312]:px-0 py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-[15px] min-[1312]:px-0  pt-10">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-serif text-white mb-4">
             {/* Если значение заголовка не пришло - дефолтное значение (пустая строка может быть) */}
             {settings?.titleMainPage ?? 'НОВОСТИ МУЗЕЯ'}
@@ -76,16 +76,13 @@ export default async function NewsPage({
             {settings?.descriptionMainPage ?? 'Актуальные события, выставки и мероприятия'}
           </p>
         </div>
-      </section>
-
-
-
-      <section className="navy/20 border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-[15px] min-[1312]:px-0 py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-[15px] min-[1312]:px-0 pb-5">
           {/* Фильтр по датам */}
           <NewsDateFilter />
         </div>
       </section>
+
+
 
 
 
