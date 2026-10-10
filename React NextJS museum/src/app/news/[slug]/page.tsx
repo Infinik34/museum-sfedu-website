@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getNewsBySlug } from '@/lib/strapiApi';
+import sanitizeHtml from 'sanitize-html';
 
 export default async function NewsDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -52,7 +53,9 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
         {/* Контент новости */}
         <div
           className="prose prose-invert prose-lg max-w-none text-gray-200 leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: content?.trim() || '<p>Описание отсутствует.</p>' }}
+          dangerouslySetInnerHTML={{
+  __html: sanitizeHtml(content?.trim() || '<p>Описание отсутствует.</p>'),
+}}
         />
 
         {/* Кнопка назад */}
