@@ -1,9 +1,9 @@
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@heroui/react';
 import { getNews, getNewsPageSettings } from '@/lib/strapiApi';
 import NewsDateFilter from '../components/NewsDateFilter';
-
 
 type StrapiNews = {
   id: number;
@@ -21,7 +21,12 @@ type StrapiNews = {
 type StrapiResponse = {
   data: StrapiNews[];
   meta: {
-    pagination: { page: number; pageSize: number; pageCount: number; total: number };
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
   };
 };
 
@@ -44,55 +49,72 @@ function getStrapiMedia(url: string | null): string {
   return `${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`;
 }
 
-
-
 export default async function NewsPage({
-  searchParams, }: {
-    searchParams: Promise<{ page?: string; from?: string; to?: string }>
-  }) // from и to
-{
+  searchParams,
+}: {
+  searchParams: Promise<{
+    page?: string;
+    from?: string;
+    to?: string;
+  }>;
+}) {
   const { page = '1', from, to } = await searchParams;
 
-  // Передаем даты в getNews
+  // Проверяем номер страницы перед запросом к Strapi.
+  // Если номер некорректный, используем первую страницу.
+  const parsedPage = Number(page);
+
+  const currentPage =
+    Number.isSafeInteger(parsedPage) && parsedPage > 0
+      ? parsedPage
+      : 1;
+
+  // Загружаем новости и настройки страницы параллельно.
   const [{ data: news, meta }, settings] = await Promise.all([
-    getNews(Number(page), from, to),
+    getNews(currentPage, from, to),
     getNewsPageSettings(),
   ]);
-  return (
 
-    // Если значения bg нет или пустая строка - по дефолту dark
-    <div className={`min-h-screen bg-museum-${settings?.backgroundMainPage || 'dark'}`}>
+  return (
+    <div
+      className={`min-h-screen bg-museum-${
+        settings?.backgroundMainPage || 'dark'
+      }`}
+    >
       {/* Заголовок страницы */}
-      {/* Если значения bg нет или пустая строка - по дефолту темно-синий с 20% прозрачности*/}
-      <section className={`bg-museum-${settings?.backgroundForTitleMainPage || 'navy/20'} border-b border-gray-800`}>
-        <div className="max-w-7xl mx-auto px-[15px] min-[1312]:px-0  pt-10">
+      <section
+        className={`bg-museum-${
+          settings?.backgroundForTitleMainPage || 'navy/20'
+        } border-b border-gray-800`}
+      >
+        <div className="max-w-7xl mx-auto px-[15px] min-[1312]:px-0 pt-10">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-serif text-white mb-4">
-            {/* Если значение заголовка не пришло - дефолтное значение (пустая строка может быть) */}
             {settings?.titleMainPage ?? 'НОВОСТИ МУЗЕЯ'}
           </h1>
-          {/* Описание страницы */}
+
           <p className="text-gray-300 text-lg max-w-2xl">
-            {/* Если значение описания не пришло - дефолтное значение (пустая строка может быть) */}
-            {settings?.descriptionMainPage ?? 'Актуальные события, выставки и мероприятия'}
+            {settings?.descriptionMainPage ??
+              'Актуальные события, выставки и мероприятия'}
           </p>
         </div>
+
         <div className="max-w-7xl mx-auto px-[15px] min-[1312]:px-0 pb-5">
-          {/* Фильтр по датам */}
           <NewsDateFilter />
         </div>
       </section>
-
-
-
-
 
       {/* Список новостей */}
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto space-y-8">
           {news.map((item: StrapiNews) => {
-            const { title, slug, excerpt, publishedAt, image } = item;
+            const {
+              title,
+              slug,
+              excerpt,
+              publishedAt,
+              image,
+            } = item;
 
-            // Собираем полный путь к картинке
             const imageUrl = image?.url
               ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${image.url}`
               : '/placeholder.png';
@@ -100,7 +122,7 @@ export default async function NewsPage({
             return (
               <article
                 key={item.documentId}
-                className='bg-museum-white/95 rounded-xl overflow-hidden border border-gray-200 hover:border-museum-blue/40 hover:shadow-xl hover:shadow-museum-blue/5 transition-all duration-300 group'
+                className="bg-museum-white/95 rounded-xl overflow-hidden border border-gray-200 hover:border-museum-blue/40 hover:shadow-xl hover:shadow-museum-blue/5 transition-all duration-300 group"
               >
                 <Link href={`/news/${slug}`}>
                   <div className="md:flex">
@@ -118,18 +140,32 @@ export default async function NewsPage({
                       <div>
                         {/* Дата */}
                         <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            />
                           </svg>
-                          {new Date(publishedAt).toLocaleDateString('ru-RU', {
-                            day: 'numeric',
-                            month: 'long',
-                            year: 'numeric'
-                          })}
+
+                          {new Date(publishedAt).toLocaleDateString(
+                            'ru-RU',
+                            {
+                              day: 'numeric',
+                              month: 'long',
+                              year: 'numeric',
+                            }
+                          )}
                         </div>
 
                         {/* Заголовок */}
-                        <h2 className='text-xl md:text-2xl font-bold text-museum-dark group-hover:text-museum-blue transition-colors mb-3 leading-tight'>
+                        <h2 className="text-xl md:text-2xl font-bold text-museum-dark group-hover:text-museum-blue transition-colors mb-3 leading-tight">
                           {title}
                         </h2>
 
@@ -139,11 +175,9 @@ export default async function NewsPage({
                         </p>
                       </div>
 
-                      {/* Кнопка "Открыть новость" */}
+                      {/* Кнопка открытия новости */}
                       <div className="mt-4 pt-4 border-t border-gray-100">
-                        <p
-                          className="inline-flex items-center gap-2 text-museum-blue font-medium hover:gap-3 transition-all group/link"
-                        >
+                        <p className="inline-flex items-center gap-2 text-museum-blue font-medium hover:gap-3 transition-all group/link">
                           Открыть новость
                         </p>
                       </div>
@@ -151,20 +185,32 @@ export default async function NewsPage({
                   </div>
                 </Link>
               </article>
-
             );
           })}
 
           {/* Пагинация */}
           <div className="flex justify-center gap-2 pt-8">
-            {Number(page) > 1 && (
-              <Link href={`/news?page=${Number(page) - 1}${from ? `&from=${from}` : ''}${to ? `&to=${to}` : ''}`} className="">
-                <span className="px-6 py-3 rounded-lg bg-museum-blue text-white hover:bg-blue-600 transition-colors">Назад</span>
+            {currentPage > 1 && (
+              <Link
+                href={`/news?page=${currentPage - 1}${
+                  from ? `&from=${encodeURIComponent(from)}` : ''
+                }${to ? `&to=${encodeURIComponent(to)}` : ''}`}
+              >
+                <span className="px-6 py-3 rounded-lg bg-museum-blue text-white hover:bg-blue-600 transition-colors">
+                  Назад
+                </span>
               </Link>
             )}
-            {Number(page) < meta.pagination.pageCount && (
-              <Link href={`/news?page=${Number(page) + 1}${from ? `&from=${from}` : ''}${to ? `&to=${to}` : ''}`}>
-                <span className="px-6 py-3 rounded-lg bg-museum-blue text-white hover:bg-blue-600 transition-colors">Далее</span>
+
+            {currentPage < meta.pagination.pageCount && (
+              <Link
+                href={`/news?page=${currentPage + 1}${
+                  from ? `&from=${encodeURIComponent(from)}` : ''
+                }${to ? `&to=${encodeURIComponent(to)}` : ''}`}
+              >
+                <span className="px-6 py-3 rounded-lg bg-museum-blue text-white hover:bg-blue-600 transition-colors">
+                  Далее
+                </span>
               </Link>
             )}
           </div>
