@@ -18,36 +18,11 @@
     "descriptionMainPage": {
       "type": "text"
     },
-    "backgroundMainPage": {
-      "type": "enumeration",
-      "enum": [
-        "dark",
-        "navy",
-        "blue"
-      ]
-    },
     "titleDetailPage": {
       "type": "string"
     },
     "descriptionDetailPage": {
       "type": "text"
-    },
-    "backgroundDetailPage": {
-      "type": "enumeration",
-      "enum": [
-        "dark",
-        "navy",
-        "blue"
-      ]
-    },
-    "backgroundForTitleMainPage": {
-      "type": "enumeration",
-      "enum": [
-        "dark",
-        "navy/20",
-        "blue",
-        "white"
-      ]
     }
   }
 }

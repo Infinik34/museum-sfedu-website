@@ -11,34 +11,15 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
-      "type": "string",
-      "required": true
-    },
     "date": {
       "type": "date",
       "required": true
     },
-    "comment": {
-      "type": "text"
-    },
-    "consent": {
-      "type": "boolean",
-      "required": true,
-      "default": false
-    },
-    "email": {
-      "type": "email"
-    },
-    "phone": {
-      "type": "string",
-      "required": true
-    },
     "time": {
       "type": "string",
-      "required": true
+      "required": false
     },
-    "processed": {
+    "isFullDay": {
       "type": "boolean",
       "required": true,
       "default": false

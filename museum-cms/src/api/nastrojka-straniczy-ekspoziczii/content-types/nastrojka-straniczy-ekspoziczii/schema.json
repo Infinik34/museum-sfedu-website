@@ -1,0 +1,18 @@
+{
+  "kind": "singleType",
+  "collectionName": "nastrojka_straniczy_ekspozicziis",
+  "info": {
+    "singularName": "nastrojka-straniczy-ekspoziczii",
+    "pluralName": "nastrojka-straniczy-ekspozicziis",
+    "displayName": "Настройка страницы экспозиции"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "text": {
+      "type": "blocks"
+    }
+  }
+}

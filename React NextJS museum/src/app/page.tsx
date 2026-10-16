@@ -114,7 +114,7 @@ export default async function Home() {
               Категории
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              ------------
+              Разделы экспозиции, посвящённые разным направлениям науки и техники.
             </p>
           </div>
 
@@ -135,9 +135,6 @@ export default async function Home() {
                 className="bg-museum-dark border border-gray-800 p-6 hover:border-museum-blue/40 transition-all duration-300 group"
               >
                 <div className="space-y-4">
-                  {/* <div className="w-14 h-14 rounded-xl bg-museum-blue/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
-                    {dir.icon}
-                  </div> */}
                   <Link href="/ekspoziciya">
                     <h3 className="text-xl font-bold group-hover:text-museum-blue transition-colors">
                       {dir.title}
@@ -146,7 +143,7 @@ export default async function Home() {
                   <p className="text-gray-400 text-sm leading-relaxed">
                     {dir.desc}
                   </p>
-                  <Link href={`/exhibition?category=${dir.slug}`} className="inline-flex items-center gap-2 text-museum-blue hover:text-blue-400 text-sm font-medium transition-colors">
+                  <Link href={`/exhibition/exhibits?category=${dir.slug}`} className="inline-flex items-center gap-2 text-museum-blue hover:text-blue-400 text-sm font-medium transition-colors">
                     Подробнее
                   </Link>
                 </div>
@@ -162,7 +159,7 @@ export default async function Home() {
           </h2>
           <p className="text-lg text-gray-300">
             Погрузитесь в мир инженерной мысли, узнайте историю развития технологий
-            и найдите вдохновение для будущих открытий //ДЛЯ РЕД
+            и найдите вдохновение для будущих открытий
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-2">
             <Link href="/booking">

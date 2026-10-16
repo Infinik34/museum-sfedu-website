@@ -20,15 +20,6 @@
     "excerpt": {
       "type": "text"
     },
-    "backgroundMain": {
-      "type": "enumeration",
-      "enum": [
-        "dark",
-        "navy",
-        "blue",
-        "white"
-      ]
-    },
     "titleBlue": {
       "type": "string"
     }

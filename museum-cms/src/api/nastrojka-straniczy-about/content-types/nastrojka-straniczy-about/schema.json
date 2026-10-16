@@ -1,0 +1,18 @@
+{
+  "kind": "singleType",
+  "collectionName": "nastrojka_straniczy_abouts",
+  "info": {
+    "singularName": "nastrojka-straniczy-about",
+    "pluralName": "nastrojka-straniczy-abouts",
+    "displayName": "Настройка страницы о нас"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "text": {
+      "type": "blocks"
+    }
+  }
+}

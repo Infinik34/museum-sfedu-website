@@ -451,28 +451,21 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    comment: Schema.Attribute.Text;
-    consent: Schema.Attribute.Boolean &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     date: Schema.Attribute.Date & Schema.Attribute.Required;
-    email: Schema.Attribute.Email;
+    isFullDay: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::booking.booking'
     > &
       Schema.Attribute.Private;
-    name: Schema.Attribute.String & Schema.Attribute.Required;
-    phone: Schema.Attribute.String & Schema.Attribute.Required;
-    processed: Schema.Attribute.Boolean &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<false>;
     publishedAt: Schema.Attribute.DateTime;
-    time: Schema.Attribute.String & Schema.Attribute.Required;
+    time: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -562,9 +555,6 @@ export interface ApiNastrojkaGlavnojStraniczyNastrojkaGlavnojStraniczy
     draftAndPublish: true;
   };
   attributes: {
-    backgroundMain: Schema.Attribute.Enumeration<
-      ['dark', 'navy', 'blue', 'white']
-    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -579,6 +569,64 @@ export interface ApiNastrojkaGlavnojStraniczyNastrojkaGlavnojStraniczy
     publishedAt: Schema.Attribute.DateTime;
     titleBlue: Schema.Attribute.String;
     titleWhite: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiNastrojkaStraniczyAboutNastrojkaStraniczyAbout
+  extends Struct.SingleTypeSchema {
+  collectionName: 'nastrojka_straniczy_abouts';
+  info: {
+    displayName: '\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0430 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B \u043E \u043D\u0430\u0441';
+    pluralName: 'nastrojka-straniczy-abouts';
+    singularName: 'nastrojka-straniczy-about';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::nastrojka-straniczy-about.nastrojka-straniczy-about'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    text: Schema.Attribute.Blocks;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiNastrojkaStraniczyEkspozicziiNastrojkaStraniczyEkspoziczii
+  extends Struct.SingleTypeSchema {
+  collectionName: 'nastrojka_straniczy_ekspozicziis';
+  info: {
+    displayName: '\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0430 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B \u044D\u043A\u0441\u043F\u043E\u0437\u0438\u0446\u0438\u0438';
+    pluralName: 'nastrojka-straniczy-ekspozicziis';
+    singularName: 'nastrojka-straniczy-ekspoziczii';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::nastrojka-straniczy-ekspoziczii.nastrojka-straniczy-ekspoziczii'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    text: Schema.Attribute.Blocks;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -607,7 +655,7 @@ export interface ApiNastrojkaStraniczyIstoriiNastrojkaStraniczyIstorii
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    text: Schema.Attribute.Text;
+    text: Schema.Attribute.Blocks;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -626,13 +674,6 @@ export interface ApiNastrojkaStraniczyNovostejNastrojkaStraniczyNovostej
     draftAndPublish: true;
   };
   attributes: {
-    backgroundDetailPage: Schema.Attribute.Enumeration<
-      ['dark', 'navy', 'blue']
-    >;
-    backgroundForTitleMainPage: Schema.Attribute.Enumeration<
-      ['dark', 'navy/20', 'blue', 'white']
-    >;
-    backgroundMainPage: Schema.Attribute.Enumeration<['dark', 'navy', 'blue']>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1298,6 +1339,8 @@ declare module '@strapi/strapi' {
       'api::category.category': ApiCategoryCategory;
       'api::exhibit.exhibit': ApiExhibitExhibit;
       'api::nastrojka-glavnoj-straniczy.nastrojka-glavnoj-straniczy': ApiNastrojkaGlavnojStraniczyNastrojkaGlavnojStraniczy;
+      'api::nastrojka-straniczy-about.nastrojka-straniczy-about': ApiNastrojkaStraniczyAboutNastrojkaStraniczyAbout;
+      'api::nastrojka-straniczy-ekspoziczii.nastrojka-straniczy-ekspoziczii': ApiNastrojkaStraniczyEkspozicziiNastrojkaStraniczyEkspoziczii;
       'api::nastrojka-straniczy-istorii.nastrojka-straniczy-istorii': ApiNastrojkaStraniczyIstoriiNastrojkaStraniczyIstorii;
       'api::nastrojka-straniczy-novostej.nastrojka-straniczy-novostej': ApiNastrojkaStraniczyNovostejNastrojkaStraniczyNovostej;
       'api::news.news': ApiNewsNews;

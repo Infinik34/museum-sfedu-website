@@ -2,8 +2,6 @@
 @plugin "@tailwindcss/typography";
 @import "@heroui/styles"; 
 
-
-
 @theme {
   /* --color-museum-dark: #0B1121; */
   --color-museum-dark: #0d1529;
@@ -52,8 +50,8 @@ body::-webkit-scrollbar {
     padding-right: 0.5rem !important;
   }
   
-  /* Логотип ещё меньше */
   svg[aria-label="Логотип Политехнического музея"] {
     width: 32px !important;
   }
 }
+

@@ -17,7 +17,6 @@ async function fetchStrapi<T>(endpoint: string, params?: Record<string, string>)
   return res.json();
 }
 
-// --- Типы данных (можно вынести в отдельный файл types.ts) ---
 export type NewsItem = {
   id: number;
   documentId: string;
@@ -307,11 +306,6 @@ export async function getPersonalityCategories() {
 
 
 
-
-
-
-
-
 /* Запросы для редактирования заголовков и тд */
 
 export async function getNewsPageSettings() {
@@ -324,6 +318,30 @@ export async function getNewsPageSettings() {
 
 export async function getMainPageSettings() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/nastrojka-glavnoj-straniczy?populate=*`, {
+    next: { revalidate: 20 }
+  });
+  const data = await res.json();
+  return data.data;
+}
+
+export async function getHistoryPageSettings() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/nastrojka-straniczy-istorii?populate=*`, {
+    next: { revalidate: 20 }
+  });
+  const data = await res.json();
+  return data.data;
+}
+
+export async function getExhibitionPageSettings() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/nastrojka-straniczy-ekspoziczii?populate=*`, {
+    next: { revalidate: 20 }
+  });
+  const data = await res.json();
+  return data.data;
+}
+
+export async function getAboutPageSettings() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/nastrojka-straniczy-about?populate=*`, {
     next: { revalidate: 20 }
   });
   const data = await res.json();
