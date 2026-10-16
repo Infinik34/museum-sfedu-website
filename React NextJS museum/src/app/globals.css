@@ -1,5 +1,8 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @import "@heroui/styles"; 
+
+
 
 @theme {
   /* --color-museum-dark: #0B1121; */

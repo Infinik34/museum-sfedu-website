@@ -77,15 +77,10 @@ export default async function NewsPage({
 
   return (
     <div
-      className={`min-h-screen bg-museum-${
-        settings?.backgroundMainPage || 'dark'
-      }`}
-    >
+      className="min-h-screen bg-museum-dark">
       {/* Заголовок страницы */}
       <section
-        className={`bg-museum-${
-          settings?.backgroundForTitleMainPage || 'navy/20'
-        } border-b border-gray-800`}
+        className="navy/20 border-b border-gray-800"
       >
         <div className="max-w-7xl mx-auto px-[15px] min-[1312]:px-0 pt-10">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-serif text-white mb-4">

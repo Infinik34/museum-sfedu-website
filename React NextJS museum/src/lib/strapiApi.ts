@@ -45,7 +45,7 @@ export type ExhibitItem = {
   slug: string;
   description: string;
   fullDescription?: string;  // Добавь, если есть такое поле
-  categories: CategoryItem[];
+  categories: ExhibitCategoryItem[];
   year: number | null;
   isDisplayed: boolean;
   image: {
@@ -55,7 +55,30 @@ export type ExhibitItem = {
   } | null;
 };
 
-export type CategoryItem = {
+export type PersonalityItem = {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+  description: string;
+  fullDescription: string;
+  categories: PersonalityCategoryItem[];
+  image: {
+    url: string;
+    alternativeText: string | null;
+    caption?: string | null;
+  } | null;
+};
+
+export type ExhibitCategoryItem = {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+  isMain: boolean;
+};
+
+export type PersonalityCategoryItem = {
   id: number;
   documentId: string;
   name: string;
@@ -126,17 +149,21 @@ export async function getStaff() {
   };
 }
 
+
+
+
+
 export async function getExhibits(categorySlugs?: string[]) {
   const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
 
-  // 1. Собираем базовые параметры
+  // базовые параметры
   const parts = [
     'populate[image]=true',
     'populate[categories]=true',
     'sort[title]=asc'
   ];
 
-  // 2. Добавляем фильтр категорий
+  // фильтр категорий
   if (categorySlugs && categorySlugs.length > 0) {
     if (categorySlugs.length === 1) {
       // Для одной категории используем простой $eq
@@ -149,11 +176,9 @@ export async function getExhibits(categorySlugs?: string[]) {
     }
   }
 
-  // 3. Формируем URL
+  // URL
   const queryString = parts.join('&');
   const url = `${baseUrl}/api/exhibits?${queryString}`;
-
-  console.log('🔍 Strapi Request:', url);
 
   const res = await fetch(url, {
     headers: { 'Content-Type': 'application/json' },
@@ -169,6 +194,44 @@ export async function getExhibits(categorySlugs?: string[]) {
   const json = await res.json();
   return { data: json.data || [], meta: json.meta };
 }
+
+export async function getPersonalities(categorySlugs?: string[]) {
+  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
+
+  const parts = [
+    'populate[image]=true',
+    'populate[razdely_personalijs]=true',
+    'sort[name]=asc',
+  ];
+
+  if (categorySlugs && categorySlugs.length > 0) {
+    if (categorySlugs.length === 1) {
+      parts.push(`filters[razdely_personalijs][slug][$eq]=${categorySlugs[0]}`);
+    } else {
+      categorySlugs.forEach((slug, index) => {
+        parts.push(`filters[$or][${index}][razdely_personalijs][slug][$eq]=${slug}`);
+      });
+    }
+  }
+
+  const queryString = parts.join('&');
+  const url = `${baseUrl}/api/personaliis?${queryString}`;
+
+  const res = await fetch(url, {
+    headers: { 'Content-Type': 'application/json' },
+    next: { revalidate: 0 },
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error('Strapi Error:', errorText);
+    throw new Error(`Strapi API Error: ${res.status}`);
+  }
+
+  const json = await res.json();
+  return { data: json.data || [], meta: json.meta };
+}
+
 
 export async function getExhibitBySlug(slug: string) {
   const params = new URLSearchParams({
@@ -190,9 +253,35 @@ export async function getExhibitBySlug(slug: string) {
   return item;
 }
 
+
+export async function getPersonalityBySlug(slug: string) {
+  const params = new URLSearchParams({
+    'populate[image]': 'true',
+    'populate[razdely_personalijs]': 'true',
+    'filters[slug][$eq]': slug,
+  });
+
+  const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/personaliis?${params.toString()}`;
+
+  const res = await fetch(url);
+  if (!res.ok) return null;
+
+  const json = await res.json();
+
+  const item = json.data?.[0];
+  if (!item || !item.name) return null;
+
+  return item;
+}
+
+
+
+
+
+
 /* Получить список всех категорий для фильтров */
-export async function getCategories() {
-  const res = await fetchStrapi<{ data: CategoryItem[] }>('/api/categories', {
+export async function getExhibitCategories() {
+  const res = await fetchStrapi<{ data: ExhibitCategoryItem[] }>('/api/categories', {
     'sort[name]': 'asc',
     'fields': 'name,slug, isMain', // Оптимизация: не грузим лишние поля
     'pagination[pageSize]': '100' // На случай, если категорий станет много
@@ -202,6 +291,25 @@ export async function getCategories() {
   const valid = res.data.filter(cat => cat.name && cat.slug);
   return { ...res, data: valid };
 }
+
+export async function getPersonalityCategories() {
+  const res = await fetchStrapi<{ data: PersonalityCategoryItem[] }>('/api/razdely-personalijs', {
+    'sort[name]': 'asc',
+    'fields': 'name,slug, isMain', // Оптимизация: не грузим лишние поля
+    'pagination[pageSize]': '100' // На случай, если категорий станет много
+  });
+
+  // Защита от пустых/битых записей
+  const valid = res.data.filter(cat => cat.name && cat.slug);
+  return { ...res, data: valid };
+}
+
+
+
+
+
+
+
 
 
 /* Запросы для редактирования заголовков и тд */

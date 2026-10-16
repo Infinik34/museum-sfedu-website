@@ -14,7 +14,12 @@ export default function Header() {
   const getNavItems = () => {
     return (
       siteConfig.navItems.map((item) => {
-        const isActive = pathname === item.href
+        let isActive = false
+        if (item.href === '/') {
+          isActive = pathname === '/';
+        } else {
+          isActive = pathname.startsWith(item.href);
+        }
         return (
           <li key={item.href}>
             <Link className={`

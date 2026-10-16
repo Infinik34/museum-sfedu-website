@@ -15,7 +15,7 @@ export default function ExhibitCard({ item, baseUrl }: ExhibitCardProps) {
 
   return (
     <Link
-      href={`/exhibition/${item.slug}`}
+      href={`/exhibition/exhibits/${item.slug}`}
       className="group block h-full"
     >
       <Card className="bg-museum-dark p-0!">

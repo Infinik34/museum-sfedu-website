@@ -23,9 +23,6 @@
     "description": {
       "type": "text"
     },
-    "fullDescription": {
-      "type": "richtext"
-    },
     "year": {
       "type": "integer"
     },
@@ -45,6 +42,9 @@
       "relation": "manyToMany",
       "target": "api::category.category",
       "mappedBy": "exhibits"
+    },
+    "fullDescription": {
+      "type": "blocks"
     }
   }
 }

@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "razdely_personalijs",
+  "info": {
+    "singularName": "razdely-personalij",
+    "pluralName": "razdely-personalijs",
+    "displayName": "Разделы персоналий"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "personaliis": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::personalii.personalii",
+      "inversedBy": "razdely_personalijs"
+    },
+    "isMain": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    }
+  }
+}

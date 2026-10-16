@@ -482,7 +482,7 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
 export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   collectionName: 'categories';
   info: {
-    displayName: '\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0438';
+    displayName: '\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0438 \u044D\u043A\u0441\u043F\u043E\u043D\u0430\u0442\u043E\u0432';
     pluralName: 'categories';
     singularName: 'category';
   };
@@ -494,7 +494,9 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     exhibits: Schema.Attribute.Relation<'manyToMany', 'api::exhibit.exhibit'>;
-    isMain: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    isMain: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -503,7 +505,7 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'name'>;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -529,7 +531,7 @@ export interface ApiExhibitExhibit extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
-    fullDescription: Schema.Attribute.RichText;
+    fullDescription: Schema.Attribute.Blocks;
     image: Schema.Attribute.Media<'images'>;
     isDisplayed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -675,6 +677,79 @@ export interface ApiNewsNews extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'title'>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPersonaliiPersonalii extends Struct.CollectionTypeSchema {
+  collectionName: 'personaliis';
+  info: {
+    displayName: '\u041F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u0438\u0438';
+    pluralName: 'personaliis';
+    singularName: 'personalii';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    fullDescription: Schema.Attribute.Blocks;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::personalii.personalii'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    razdely_personalijs: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::razdely-personalij.razdely-personalij'
+    >;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiRazdelyPersonalijRazdelyPersonalij
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'razdely_personalijs';
+  info: {
+    displayName: '\u0420\u0430\u0437\u0434\u0435\u043B\u044B \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u0438\u0439';
+    pluralName: 'razdely-personalijs';
+    singularName: 'razdely-personalij';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    isMain: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::razdely-personalij.razdely-personalij'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    personaliis: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::personalii.personalii'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1165,7 +1240,6 @@ export interface PluginUsersPermissionsUser
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
@@ -1227,6 +1301,8 @@ declare module '@strapi/strapi' {
       'api::nastrojka-straniczy-istorii.nastrojka-straniczy-istorii': ApiNastrojkaStraniczyIstoriiNastrojkaStraniczyIstorii;
       'api::nastrojka-straniczy-novostej.nastrojka-straniczy-novostej': ApiNastrojkaStraniczyNovostejNastrojkaStraniczyNovostej;
       'api::news.news': ApiNewsNews;
+      'api::personalii.personalii': ApiPersonaliiPersonalii;
+      'api::razdely-personalij.razdely-personalij': ApiRazdelyPersonalijRazdelyPersonalij;
       'api::staff.staff': ApiStaffStaff;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

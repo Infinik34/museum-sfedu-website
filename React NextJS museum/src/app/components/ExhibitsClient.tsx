@@ -3,12 +3,12 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import { ExhibitItem, CategoryItem } from '@/lib/strapiApi';
+import { ExhibitItem, ExhibitCategoryItem } from '@/lib/strapiApi';
 import ExhibitCard from './ExhibitCard';
 
 interface ExhibitsClientProps {
   initialExhibits: ExhibitItem[];
-  categories: CategoryItem[];
+  categories: ExhibitCategoryItem[];
 }
 
 export default function ExhibitsClient({ initialExhibits, categories }: ExhibitsClientProps) {
@@ -38,7 +38,7 @@ export default function ExhibitsClient({ initialExhibits, categories }: Exhibits
     }
 
     const queryString = params.toString();
-    const url = queryString ? `/exhibition?${queryString}` : '/exhibition';
+    const url = queryString ? `/exhibition/exhibits?${queryString}` : '/exhibition/exhibits';
 
     router.push(url, { scroll: false });
 
@@ -46,7 +46,7 @@ export default function ExhibitsClient({ initialExhibits, categories }: Exhibits
 
   const clearFilters = () => {
     setActiveSlugs([]);
-    router.push('/exhibition');
+    router.push('/exhibition/exhibits');
   };
 
   // 🔹 Разделение на основные и второстепенные

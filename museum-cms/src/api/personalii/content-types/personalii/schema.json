@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "personaliis",
+  "info": {
+    "singularName": "personalii",
+    "pluralName": "personaliis",
+    "displayName": "Персоналии"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "fullDescription": {
+      "type": "blocks"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "razdely_personalijs": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::razdely-personalij.razdely-personalij",
+      "mappedBy": "personaliis"
+    }
+  }
+}

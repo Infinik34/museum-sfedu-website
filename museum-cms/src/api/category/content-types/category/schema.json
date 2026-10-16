@@ -4,7 +4,7 @@
   "info": {
     "singularName": "category",
     "pluralName": "categories",
-    "displayName": "Категории"
+    "displayName": "Категории экспонатов"
   },
   "options": {
     "draftAndPublish": true
@@ -17,7 +17,8 @@
     },
     "slug": {
       "type": "uid",
-      "targetField": "name"
+      "targetField": "name",
+      "required": true
     },
     "exhibits": {
       "type": "relation",
@@ -27,7 +28,7 @@
     },
     "isMain": {
       "type": "boolean",
-      "required": false,
+      "required": true,
       "default": false
     }
   }
