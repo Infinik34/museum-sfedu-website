@@ -23,7 +23,7 @@ export default async function ExhibitPage({ params }: {
     return (
         <main className="min-h-screen bg-museum-dark text-museum-text">
 
-            <div className="border-b border-gray-800/50">
+            <div className="transition-colors bg-gradient-to-b from-[#0F1930] to-[#0d1529]">
                 <div className="max-w-5xl mx-auto px-4 py-4">
                     <Link
                         href="/exhibition/exhibits"
