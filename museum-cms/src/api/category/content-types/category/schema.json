@@ -30,6 +30,11 @@
       "type": "boolean",
       "required": true,
       "default": false
+    },
+    "isForMainPage": {
+      "type": "boolean",
+      "required": true,
+      "default": false
     }
   }
 }

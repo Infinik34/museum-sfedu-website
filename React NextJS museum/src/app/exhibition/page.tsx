@@ -21,8 +21,14 @@ export default async function ExhibitionPage() {
                         <BlocksRenderer content={settings.text as any} />
                     </div>
                 )}
-
+                <section className="flex flex-col items-center justify-center py-5 text-center">
+                    <h2 className="m-10 max-w-2xl text-xl md:text-2xl font-bold">
+                        Также исследовать нашу экспозицию можно на платформе Artefact по QR-коду ниже
+                    </h2>
+                    <div className="w-64 h-64 bg-[url('/qrsvg.jpg')] bg-cover bg-center bg-no-repeat" />
+                </section>
             </article>
+            {/* <img src="/qrsvg.jpg" className='w-55 h-55'/> */}
         </main>
     );
 }

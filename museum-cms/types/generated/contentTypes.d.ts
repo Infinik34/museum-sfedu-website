@@ -487,6 +487,9 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     exhibits: Schema.Attribute.Relation<'manyToMany', 'api::exhibit.exhibit'>;
+    isForMainPage: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
     isMain: Schema.Attribute.Boolean &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<false>;
@@ -566,6 +569,10 @@ export interface ApiNastrojkaGlavnojStraniczyNastrojkaGlavnojStraniczy
       'api::nastrojka-glavnoj-straniczy.nastrojka-glavnoj-straniczy'
     > &
       Schema.Attribute.Private;
+    photos: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
     publishedAt: Schema.Attribute.DateTime;
     titleBlue: Schema.Attribute.String;
     titleWhite: Schema.Attribute.String;
@@ -775,6 +782,9 @@ export interface ApiRazdelyPersonalijRazdelyPersonalij
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    isForMainPage: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
     isMain: Schema.Attribute.Boolean &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<false>;

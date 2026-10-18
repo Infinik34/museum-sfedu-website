@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import Link from 'next/link';
 import { getNewsBySlug } from '@/lib/strapiApi';
 import sanitizeHtml from 'sanitize-html';
@@ -25,7 +24,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
       <div className="max-w-4xl mx-auto">
         {/* Шапка */}
         <header className="mb-8 md:mb-12">
-          <time className="text-museum-blue text-sm font-semibold tracking-wide uppercase">
+          <time className="text-museum-blue text-lg font-semibold tracking-wide uppercase">
             {new Intl.DateTimeFormat('ru-RU', {
               day: 'numeric',
               month: 'long',
@@ -33,7 +32,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
               timeZone: 'Europe/Moscow'
             }).format(new Date(publishedAt))}
           </time>
-          <h1 className="text-3xl md:text-5xl font-bold font-serif mt-3 mb-4 leading-tight">
+          <h1 className="text-3xl md:text-5xl font-bold mt-3 mb-4 leading-tight">
             {title}
           </h1>
           <p className="text-xl text-gray-300 leading-relaxed">{excerpt}</p>

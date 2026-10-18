@@ -11,18 +11,8 @@ export default async function StaffPage() {
       {/* Хедер страницы */}
       <section className="bg-museum-dark text-white py-12 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-4 mb-6">
-            <Link
-              href="/"
-              className="text-museum-blue hover:text-blue-400 transition-colors flex items-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              На главную
-            </Link>
-          </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-serif">
+
+          <h1 className="text-3xl md:text-4xl lg:text-5xl">
             СОТРУДНИКИ МУЗЕЯ
           </h1>
           <p className="text-gray-400 mt-4 max-w-2xl">
@@ -36,9 +26,11 @@ export default async function StaffPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {staff.map((person) => (
-              <Card key={person.id} className="h-full">
-                <Card.Content
-                  className="bg-white/95 border border-gray-200 p-6 hover:border-museum-blue/40 hover:shadow-xl transition-all duration-300 group h-full">
+              <Card
+                key={person.id}
+                className="h-full bg-white/90 border border-gray-200 hover:border-museum-blue/40 hover:shadow-xl transition-all duration-300 group"
+              >
+                <Card.Content className="p-6 h-full bg-transparent">
                   <div className="flex flex-col items-center text-center">
                     {/* Аватар с инициалами */}
                     <div className="w-20 h-20 rounded-full bg-linear-to-br from-museum-blue to-museum-navy flex items-center justify-center text-white font-bold text-2xl mb-4 shadow-lg">

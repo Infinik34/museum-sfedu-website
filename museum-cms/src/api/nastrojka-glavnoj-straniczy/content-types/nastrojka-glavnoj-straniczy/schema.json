@@ -22,6 +22,16 @@
     },
     "titleBlue": {
       "type": "string"
+    },
+    "photos": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }

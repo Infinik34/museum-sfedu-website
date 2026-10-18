@@ -75,6 +75,7 @@ export type ExhibitCategoryItem = {
   name: string;
   slug: string;
   isMain: boolean;
+  isForMainPage: boolean;
 };
 
 export type PersonalityCategoryItem = {
@@ -83,6 +84,7 @@ export type PersonalityCategoryItem = {
   name: string;
   slug: string;
   isMain: boolean;
+  isForMainPage: boolean;
 };
 
 /** Получить список новостей */
@@ -121,7 +123,15 @@ export async function getNews(page: number = 1, from?: string | null, to?: strin
   }
 }
 
-
+export async function getLatestNews(limit = 3) {
+  return fetchStrapi<{ data: NewsItem[]; meta: any }>('/api/news-items', {
+    'populate': 'image',
+    'filters[isPublished][$eq]': 'true',
+    'sort[publishedAt]': 'desc',
+    'pagination[page]': '1',
+    'pagination[pageSize]': limit.toString(),
+  });
+}
 
 /** Получить одну новость по slug */
 export async function getNewsBySlug(slug: string) {
@@ -147,10 +157,6 @@ export async function getStaff() {
     data: validStaff,
   };
 }
-
-
-
-
 
 export async function getExhibits(categorySlugs?: string[]) {
   const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
@@ -279,27 +285,55 @@ export async function getPersonalityBySlug(slug: string) {
 
 
 /* Получить список всех категорий для фильтров */
-export async function getExhibitCategories() {
-  const res = await fetchStrapi<{ data: ExhibitCategoryItem[] }>('/api/categories', {
+export async function getExhibitCategories(options?: {
+  onlyMain?: boolean;       // для фильтров на странице экспозиции (isMain)
+  forMainPage?: boolean;    // для главной страницы (isForMainPage)
+  limit?: number;
+}) {
+  const params: Record<string, string> = {
     'sort[name]': 'asc',
-    'fields': 'name,slug, isMain', // Оптимизация: не грузим лишние поля
-    'pagination[pageSize]': '100' // На случай, если категорий станет много
-  });
+    'fields': 'name,slug,isMain,isForMainPage', // Не забываем запросить новое поле
+    'pagination[pageSize]': (options?.limit ?? 100).toString(),
+  };
 
-  // Защита от пустых/битых записей
-  const valid = res.data.filter(cat => cat.name && cat.slug);
+  // Фильтр для страницы экспозиции
+  if (options?.onlyMain) {
+    params['filters[isMain][$eq]'] = 'true';
+  }
+
+  // Фильтр для главной страницы
+  if (options?.forMainPage) {
+    params['filters[isForMainPage][$eq]'] = 'true';
+  }
+
+  const res = await fetchStrapi<{ data: ExhibitCategoryItem[] }>('/api/categories', params);
+
+  const valid = res.data.filter((cat) => cat.name && cat.slug);
   return { ...res, data: valid };
 }
 
-export async function getPersonalityCategories() {
-  const res = await fetchStrapi<{ data: PersonalityCategoryItem[] }>('/api/razdely-personalijs', {
+export async function getPersonalityCategories(options?: {
+  onlyMain?: boolean;
+  forMainPage?: boolean;
+  limit?: number;
+}) {
+  const params: Record<string, string> = {
     'sort[name]': 'asc',
-    'fields': 'name,slug, isMain', // Оптимизация: не грузим лишние поля
-    'pagination[pageSize]': '100' // На случай, если категорий станет много
-  });
+    'fields': 'name,slug,isMain,isForMainPage', // Добавили новое поле
+    'pagination[pageSize]': (options?.limit ?? 100).toString(),
+  };
 
-  // Защита от пустых/битых записей
-  const valid = res.data.filter(cat => cat.name && cat.slug);
+  if (options?.onlyMain) {
+    params['filters[isMain][$eq]'] = 'true';
+  }
+
+  if (options?.forMainPage) {
+    params['filters[isForMainPage][$eq]'] = 'true';
+  }
+
+  const res = await fetchStrapi<{ data: PersonalityCategoryItem[] }>('/api/razdely-personalijs', params);
+
+  const valid = res.data.filter((cat) => cat.name && cat.slug);
   return { ...res, data: valid };
 }
 

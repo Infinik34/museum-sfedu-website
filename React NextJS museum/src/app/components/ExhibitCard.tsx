@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Card, Card as HeroCard } from '@heroui/react';
+import { Card } from '@heroui/react';
 import { ExhibitItem } from '@/lib/strapiApi';
 
 interface ExhibitCardProps {

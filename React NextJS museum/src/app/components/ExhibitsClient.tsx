@@ -1,4 +1,3 @@
-// components/ExhibitsClient.tsx
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -15,7 +14,6 @@ export default function ExhibitsClient({ initialExhibits, categories }: Exhibits
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // 🔹 Читаем ?category=slug1,slug2
   const rawCategory = searchParams.get('category') || '';
   const [activeSlugs, setActiveSlugs] = useState<string[]>(
     rawCategory ? rawCategory.split(',').filter(Boolean) : []
@@ -49,11 +47,10 @@ export default function ExhibitsClient({ initialExhibits, categories }: Exhibits
     router.push('/exhibition/exhibits');
   };
 
-  // 🔹 Разделение на основные и второстепенные
   const mainCategories = categories.filter(c => c.isMain);
+
   const otherCategories = categories.filter(c => !c.isMain);
 
-  // 🔹 Общий класс для кнопки
   const getButtonClass = (slug: string) => {
     const isActive = activeSlugs.includes(slug);
     return `px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 cursor-pointer ${isActive

@@ -83,7 +83,7 @@ export default async function NewsPage({
         className="navy/20 border-b border-gray-800"
       >
         <div className="max-w-7xl mx-auto px-[15px] min-[1312]:px-0 pt-10">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-serif text-white mb-4">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl  text-white mb-4">
             {settings?.titleMainPage ?? 'НОВОСТИ МУЗЕЯ'}
           </h1>
 
