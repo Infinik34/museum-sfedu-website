@@ -87,6 +87,14 @@ export type PersonalityCategoryItem = {
   isForMainPage: boolean;
 };
 
+export type EventCalendarItem = {
+  documentId: string;
+  date: string;
+  time?: string | null;
+  info?: string | null;
+};
+
+
 /** Получить список новостей */
 // Версия до новостей по фильтру
 // export async function getNews(page = 1, pageSize = 10) {
@@ -280,7 +288,15 @@ export async function getPersonalityBySlug(slug: string) {
 }
 
 
-
+export async function getBookings() {
+  const dateFromStr = new Date().toISOString().split('T')[0];
+  
+  return fetchStrapi<{ data: any[] }>('/api/bookings', {
+    'fields': 'date,time,isFullDay',
+    'filters[date][$gte]': dateFromStr,
+    'sort': 'date:asc',
+  });
+}
 
 
 
@@ -380,4 +396,27 @@ export async function getAboutPageSettings() {
   });
   const data = await res.json();
   return data.data;
+}
+
+export async function getCalendarEvents() {
+  const res = await fetchStrapi<{ data: any[] }>('/api/kalendar-sobytijs', {
+    'fields': 'date,time,info',
+    'sort': 'date:asc',
+  });
+
+  const formattedData = res.data.map((item) => {
+    let formattedDate = item.date;
+
+    if (formattedDate && formattedDate.includes('/')) {
+      const [day, month, year] = formattedDate.split('/');
+      formattedDate = `${year}-${month}-${day}`;
+    }
+
+    return {
+      ...item,
+      date: formattedDate,
+    };
+  });
+
+  return { ...res, data: formattedData };
 }

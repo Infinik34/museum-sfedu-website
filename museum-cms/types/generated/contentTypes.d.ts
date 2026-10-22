@@ -546,6 +546,37 @@ export interface ApiExhibitExhibit extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiKalendarSobytijKalendarSobytij
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'kalendar_sobytijs';
+  info: {
+    displayName: '\u041A\u0430\u043B\u0435\u043D\u0434\u0430\u0440\u044C \u0441\u043E\u0431\u044B\u0442\u0438\u0439';
+    pluralName: 'kalendar-sobytijs';
+    singularName: 'kalendar-sobytij';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date & Schema.Attribute.Required;
+    info: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::kalendar-sobytij.kalendar-sobytij'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    time: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiNastrojkaGlavnojStraniczyNastrojkaGlavnojStraniczy
   extends Struct.SingleTypeSchema {
   collectionName: 'nastrojka_glavnoj_straniczies';
@@ -1348,6 +1379,7 @@ declare module '@strapi/strapi' {
       'api::booking.booking': ApiBookingBooking;
       'api::category.category': ApiCategoryCategory;
       'api::exhibit.exhibit': ApiExhibitExhibit;
+      'api::kalendar-sobytij.kalendar-sobytij': ApiKalendarSobytijKalendarSobytij;
       'api::nastrojka-glavnoj-straniczy.nastrojka-glavnoj-straniczy': ApiNastrojkaGlavnojStraniczyNastrojkaGlavnojStraniczy;
       'api::nastrojka-straniczy-about.nastrojka-straniczy-about': ApiNastrojkaStraniczyAboutNastrojkaStraniczyAbout;
       'api::nastrojka-straniczy-ekspoziczii.nastrojka-straniczy-ekspoziczii': ApiNastrojkaStraniczyEkspozicziiNastrojkaStraniczyEkspoziczii;

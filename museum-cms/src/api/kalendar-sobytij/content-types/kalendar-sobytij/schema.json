@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "kalendar_sobytijs",
+  "info": {
+    "singularName": "kalendar-sobytij",
+    "pluralName": "kalendar-sobytijs",
+    "displayName": "Календарь событий"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "info": {
+      "type": "text"
+    },
+    "time": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date",
+      "required": true
+    }
+  }
+}

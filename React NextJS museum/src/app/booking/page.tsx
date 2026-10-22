@@ -4,6 +4,7 @@ import type { DateValue } from "@internationalized/date";
 import { useState, useEffect } from 'react';
 import { Calendar } from "@heroui/react";
 import { today, getLocalTimeZone, CalendarDate } from "@internationalized/date";
+import { getBookings } from "@/lib/strapiApi";
 
 export default function ReservationPage() {
   const [selectedDate, setSelectedDate] = useState<CalendarDate | null>(null);
@@ -29,12 +30,7 @@ export default function ReservationPage() {
   useEffect(() => {
     const fetchSchedule = async () => {
       try {
-        const dateFromStr = new Date().toISOString().split('T')[0];
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/bookings?fields=date,time,isFullDay&filters[date][$gte]=${dateFromStr}&sort=date:asc`
-        );
-        if (!res.ok) throw new Error('Failed to fetch schedule');
-        const json = await res.json();
+        const json = await getBookings();
 
         if (json.data) {
           const formattedData = json.data.map((item: any) => ({
@@ -57,7 +53,7 @@ export default function ReservationPage() {
   return (
     <main className="min-h-screen bg-museum-dark text-white py-16 px-4">
       <div className="max-w-5xl mx-auto grid lg:grid-cols-12 gap-8">
-        
+
         <div className="lg:col-span-5 max-w-[450px] bg-museum-navy/20 p-6 rounded-xl border border-gray-800 h-fit top-24">
           <h2 className="text-xl font-semibold mb-4 text-white flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-teal-500"></span>
@@ -76,7 +72,7 @@ export default function ReservationPage() {
                 onChange={(date) => {
                   if (!date) return;
                   const { status, time } = getBookingStatus(date);
-                  
+
                   if (status === 'blocked') return; // Не даём выбрать закрытые дни
 
                   if (status === 'partial') {
@@ -130,7 +126,7 @@ export default function ReservationPage() {
                               group relative
                             `}>
                               {date.day}
-                              
+
                               {/* Точка для мобильных */}
                               {status === 'partial' && <span className={dotClass} />}
 
@@ -177,11 +173,11 @@ export default function ReservationPage() {
 
       {/* Модальное окно для мобильных */}
       {selectedBookingInfo && (
-        <div 
+        <div
           className="fixed inset-0 z-[100] bg-black/60 flex items-center justify-center p-4"
           onClick={() => setSelectedBookingInfo(null)}
         >
-          <div 
+          <div
             className="bg-museum-navy border border-gray-700 p-6 rounded-xl max-w-sm w-full shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
@@ -190,7 +186,7 @@ export default function ReservationPage() {
               <p>Дата: <span className="text-white font-medium">{selectedBookingInfo.date}</span></p>
               <p>Время: <span className="text-yellow-400 font-medium">{selectedBookingInfo.time}</span></p>
             </div>
-            <button 
+            <button
               className="w-full bg-museum-blue text-white py-2 rounded-lg hover:bg-museum-blue/80 transition-colors"
               onClick={() => setSelectedBookingInfo(null)}
             >

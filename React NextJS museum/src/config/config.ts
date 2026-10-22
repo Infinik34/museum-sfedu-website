@@ -5,5 +5,6 @@ export const siteConfig = {
     { href: '/history', label: 'История' },
     { href: '/staff', label: 'Сотрудники' },
     { href: '/exhibition', label: 'Экспозиция' },
+    { href: '/event-calendar', label: 'Календарь событий' },
     { href: '/about', label: 'О нас' }
   ]}
