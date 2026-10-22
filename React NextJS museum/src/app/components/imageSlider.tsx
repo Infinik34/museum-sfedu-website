@@ -33,6 +33,13 @@ export default function HeroImageSlider({ images }: SliderProps) {
                 className="object-cover transition-opacity duration-300"
             />
 
+            {/* Счетчик */}
+            {images.length > 1 && (
+                <div className="absolute top-4 right-4 z-20 bg-black/50 text-white text-sm px-3 py-1 rounded-full backdrop-blur-sm">
+                    {currentIndex + 1} / {images.length}
+                </div>
+            )}
+
             {images.length > 1 && (
                 <>
                     <button
