@@ -80,7 +80,7 @@ export default function EventsCalendar() {
                                 let cellClasses = "w-16 h-16 md:w-16 md:h-16 flex items-center justify-center rounded-full transition-all select-none text-lg md:text-lg relative";
 
                                 if (event) {
-                                    cellClasses += " !bg-pink-500/20 !text-pink-500 font-bold border border-pink-500/50 cursor-pointer shadow-[0_0_15px_rgba(192,38,211,0.3)]";
+                                    cellClasses += " !bg-[#FF2A7A]/20 !text-[#FF2A7A] font-bold border border-[#FF2A7A]/50 cursor-pointer shadow-[0_0_15px_rgba(192,38,211,0.3)]";
                                 } else if (isToday) {
                                     cellClasses += " border border-teal-500/50 text-teal-400 font-bold";
                                 } else {
@@ -93,7 +93,7 @@ export default function EventsCalendar() {
                                             <div className={cellClasses}>
                                                 {date.day}
                                                 {event && (
-                                                    <span className="absolute bottom-1 md:bottom-2 w-1.5 h-1.5 md:w-2 md:h-2 bg-pink-800 rounded-full shadow-[0_0_5px_rgba(192,38,211,0.8)]" />
+                                                    <span className="absolute bottom-1 md:bottom-2 w-1.5 h-1.5 md:w-2 md:h-2 bg-[#FF2A7A] rounded-full shadow-[0_0_5px_rgba(192,38,211,0.8)]" />
                                                 )}
                                             </div>
                                         )}
@@ -108,7 +108,7 @@ export default function EventsCalendar() {
             {/* Легенда */}
             <div className="mt-12 flex flex-wrap gap-6 text-sm text-gray-400 justify-center">
                 <div className="flex items-center gap-2">
-                    <span className="w-4 h-4 rounded-full bg-pink-800/20 border border-pink-500/50"></span>
+                    <span className="w-4 h-4 rounded-full bg-[#FF2A7A]/20 border border-[#FF2A7A]/50"></span>
                     Событие
                 </div>
                 <div className="flex items-center gap-2">
@@ -128,8 +128,8 @@ export default function EventsCalendar() {
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="flex items-center gap-3 mb-6">
-                            <span className="w-3 h-3 rounded-full bg-pink-600"></span>
-                            <h3 className="text-white text-2xl font-bold font-serif">Событие</h3>
+                            <span className="w-2 h-2 rounded-full bg-[#FF2A7A]"></span>
+                            <h3 className="text-white text-2xl">Событие</h3>
                         </div>
                         <div className="space-y-4 mb-8">
                             <div className="flex justify-between border-b border-gray-700/50 pb-2">
@@ -148,7 +148,7 @@ export default function EventsCalendar() {
                             </div>
                         </div>
                         <button
-                            className="w-full bg-pink-600 hover:bg-pink-700 cursor-pointer text-white font-bold py-3 rounded-lg transition-colors duration-300"
+                            className="w-full bg-[#c42360] hover:bg-[#a81d52] cursor-pointer text-white font-bold py-3 rounded-lg transition-colors duration-300"
                             onClick={() => setSelectedEvent(null)}
                         >
                             Закрыть

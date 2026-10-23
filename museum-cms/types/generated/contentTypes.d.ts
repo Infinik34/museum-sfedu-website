@@ -443,7 +443,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
   collectionName: 'bookings';
   info: {
-    displayName: '\u0411\u0440\u043E\u043D\u044C';
+    displayName: '\u0417\u0430\u043D\u044F\u0442\u043E\u0441\u0442\u044C';
     pluralName: 'bookings';
     singularName: 'booking';
   };

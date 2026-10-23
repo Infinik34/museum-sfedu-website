@@ -4,7 +4,7 @@
   "info": {
     "singularName": "booking",
     "pluralName": "bookings",
-    "displayName": "Бронь"
+    "displayName": "Занятость"
   },
   "options": {
     "draftAndPublish": true

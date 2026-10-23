@@ -31,10 +31,9 @@ export default function ReservationPage() {
     const fetchSchedule = async () => {
       try {
         const json = await getBookings();
-
         if (json.data) {
           const formattedData = json.data.map((item: any) => ({
-            date: item.date,
+            date: item.date, //YYYY-MM-DD
             isFullDay: !!item.isFullDay,
             time: item.time,
           }));
@@ -46,7 +45,6 @@ export default function ReservationPage() {
         setIsLoadingDates(false);
       }
     };
-
     fetchSchedule();
   }, []);
 
@@ -85,7 +83,6 @@ export default function ReservationPage() {
                     setSelectedDate(date);
                   }
                 }}
-                isDateUnavailable={(date) => getBookingStatus(date).status === 'blocked'}
                 minValue={today(getLocalTimeZone())}
                 className="w-full text-lg max-w-[400px]"
               >
@@ -108,7 +105,7 @@ export default function ReservationPage() {
                       let dotClass = "";
 
                       if (status === 'blocked') {
-                        cellClasses = "!bg-red-500/20 !text-red-400 line-through opacity-60";
+                        cellClasses = "text-red-400 border border-red-500/50 relative";
                         isBlockedVisual = true;
                       } else if (status === 'partial') {
                         cellClasses = "border border-yellow-500/50 text-yellow-400 font-medium relative";
@@ -171,7 +168,7 @@ export default function ReservationPage() {
         </div>
       </div>
 
-      {/* Модальное окно для мобильных */}
+      {/* Модальное окно */}
       {selectedBookingInfo && (
         <div
           className="fixed inset-0 z-[100] bg-black/60 flex items-center justify-center p-4"

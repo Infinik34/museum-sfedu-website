@@ -28,7 +28,7 @@ export default function Header() {
                   after:transition-all after:duration-300 after:rounded-full hidden min-[960px]:block
                   ${isActive
                 ? "text-blue-600 after:w-full"
-                : "text-gray-600 hover:text-blue-500 after:w-0 hover:after:w-full"
+                : "text-gray-400 hover:text-blue-500 after:w-0 hover:after:w-full"
               }
                 `} href={item.href}>{item.label}</Link>
           </li>
@@ -99,7 +99,7 @@ export default function Header() {
               <li key={`${item.label}-${index}`}>
                 <Link
                   href={item.href}
-                  className={`block py-3 text-museum-text hover:text-white transition-colors ${pathname === item.href ? 'text-blue-400 font-medium' : ''}`}
+                  className={`block py-3 hover:text-white transition-colors ${pathname === item.href ? 'text-blue-400 font-medium' : ''}`}
                   onClick={closeMenu}
                 >
                   {item.label}

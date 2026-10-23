@@ -287,17 +287,37 @@ export async function getPersonalityBySlug(slug: string) {
   return item;
 }
 
-
+//формат MM/DD/YYYY
 export async function getBookings() {
-  const dateFromStr = new Date().toISOString().split('T')[0];
-  
-  return fetchStrapi<{ data: any[] }>('/api/bookings', {
+  const res = await fetchStrapi<{ data: any[] }>('/api/bookings', {
     'fields': 'date,time,isFullDay',
-    'filters[date][$gte]': dateFromStr,
     'sort': 'date:asc',
   });
-}
 
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
+  const formattedData = res.data.map((item) => {
+    let formattedDate = item.date;
+
+    // Нормализуем DD/MM/YYYY или MM/DD/YYYY в YYYY-MM-DD
+    if (formattedDate && formattedDate.includes('/')) {
+      const [month, day, year] = formattedDate.split('/');
+      formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
+
+    return {
+      ...item,
+      date: formattedDate,
+    };
+  });
+
+  const filteredData = formattedData.filter((item) => {
+    return item.date >= todayStr;
+  });
+
+  return { ...res, data: filteredData };
+}
 
 
 /* Получить список всех категорий для фильтров */
@@ -335,7 +355,7 @@ export async function getPersonalityCategories(options?: {
 }) {
   const params: Record<string, string> = {
     'sort[name]': 'asc',
-    'fields': 'name,slug,isMain,isForMainPage', // Добавили новое поле
+    'fields': 'name,slug,isMain,isForMainPage',
     'pagination[pageSize]': (options?.limit ?? 100).toString(),
   };
 
@@ -398,6 +418,7 @@ export async function getAboutPageSettings() {
   return data.data;
 }
 
+//формат MM/DD/YYYY
 export async function getCalendarEvents() {
   const res = await fetchStrapi<{ data: any[] }>('/api/kalendar-sobytijs', {
     'fields': 'date,time,info',
