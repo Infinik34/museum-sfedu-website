@@ -24,8 +24,12 @@ export default function PersonalityCard({ item, baseUrl }: PersonalityCardProps)
           <div className="relative aspect-4/3 w-full overflow-hidden bg-gray-900 p-4">
             <img
               src={imageUrl}
+              className="absolute inset-0 w-full h-full object-cover blur-xl opacity-50 scale-110"
+            />
+            <img
+              src={imageUrl}
               alt={item.image?.alternativeText || item.name}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              className="relative z-10 w-full h-full object-contain"
               loading="lazy"
               width={400}
               height={300}

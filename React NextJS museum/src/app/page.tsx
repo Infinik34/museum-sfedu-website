@@ -30,20 +30,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-museum-dark text-white selection:bg-museum-blue/30">
-      <section className="relative min-h-screen flex items-center justify-center px-4 py-20 overflow-hidden">
-        {/* Фон */}
-        <div className="absolute inset-0 z-0">
-          {/* <Image
-            src={mus_ins}
-            alt="Фото изнутри"
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-            className="object-cover opacity-100"
-            priority
-          /> */}
-          <div className="absolute inset-0 bg-linear-to-b from-museum-dark via-museum-dark/95 to-museum-dark" />
-        </div>
-
+      <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
         {/* Пятна */}
         <div className="relative z-10 max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="order-2 lg:order-1">
@@ -63,7 +50,7 @@ export default async function Home() {
               </blockquote>
             </div>
 
-            <div className="space-y-5 text-gray-300 leading-relaxed">
+            <div className="space-y-4 text-gray-300 leading-relaxed">
               <p>
                 Экспозиция музея отражает направления института в области науки и техники,
                 по которым идёт подготовка наших будущих специалистов:
@@ -89,7 +76,7 @@ export default async function Home() {
                 {settings?.description ?? "В экспозиции нашли отражение также история вуза и его роль в развитии науки и техники в нашей стране и за рубежом."}
               </p>
             </div>
-            <div className="flex flex-wrap gap-4 pt-2">
+            <div className="flex flex-wrap gap-4">
               <Link href="/exhibition">
                 <Button variant="primary" size="lg" className="px-8 font-semibold">
                   Экспозиция музея
@@ -174,7 +161,7 @@ export default async function Home() {
         </div>
       </section>
       {/* Персоналии */}
-      <section className="py-20 px-4 bg-museum-navy/40">
+      <section className="py-15 px-4 bg-museum-navy/40">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-14 space-y-3">
             <h2 className="text-3xl md:text-4xl lg:text-5xl">
@@ -222,7 +209,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="py-24 px-4 bg-gradient-to-br from-museum-blue/15 via-museum-navy/30 to-museum-blue/10 text-center">
+      <section className="py-15 px-4 bg-gradient-to-br from-museum-blue/15 via-museum-navy/30 to-museum-blue/10 text-center">
         <div className="max-w-3xl mx-auto space-y-8">
           <h2 className="text-3xl md:text-5xl">
             ПРИГЛАШАЕМ В ГОСТИ
