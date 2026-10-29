@@ -6,9 +6,8 @@ node_modules/
 out/
 
 # Переменные окружения
-.env
-.env.local
-.env.production.local
+.env*
+!.env.example
 
 # Логи и кэш
 npm-debug.log*

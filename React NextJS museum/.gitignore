@@ -4,11 +4,12 @@ node_modules/
 # Сборка Next.js
 .next/
 out/
+.vercel/
+next-env.d.ts
 
 # Переменные окружения
-.env
-.env.local
-.env.production.local
+.env*
+!.env.example
 
 # Логи и кэш
 npm-debug.log*
@@ -16,4 +17,3 @@ yarn-debug.log*
 yarn-error.log*
 .pnp
 .pnp.js
-
