@@ -429,8 +429,10 @@ export async function getCalendarEvents() {
     let formattedDate = item.date;
 
     if (formattedDate && formattedDate.includes('/')) {
-      const [day, month, year] = formattedDate.split('/');
-      formattedDate = `${year}-${month}-${day}`;
+      const [month, day, year] = formattedDate.split('/');
+      formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+      // const [day, month, year] = formattedDate.split('/');
+      // formattedDate = `${year}-${month}-${day}`;
     }
 
     return {

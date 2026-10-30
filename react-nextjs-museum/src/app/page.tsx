@@ -25,7 +25,10 @@ export default async function Home() {
   const { data: personalityCategories } = await getPersonalityCategories({ forMainPage: true, limit: 3 });
   const settings: StrapiSettingsMain = await getMainPageSettings()
   const imageUrls = settings?.photos?.map(
-    (img: any) => `${process.env.NEXT_PUBLIC_STRAPI_URL}${img.url}`)
+    (img: any) => img.url.startsWith('http')
+      ? img.url
+      : `${process.env.NEXT_PUBLIC_STRAPI_URL}${img.url}`
+  ) || [];
   const news = await getLatestNews(3);
 
   return (

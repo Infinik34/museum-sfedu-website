@@ -18,7 +18,9 @@ export default async function ExhibitPage({ params }: {
 
     // Формируем URL изображения
     const imageUrl = exhibit.image?.url
-        ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${exhibit.image.url}`
+        ? exhibit.image.url.startsWith('http')
+            ? exhibit.image.url
+            : `${process.env.NEXT_PUBLIC_STRAPI_URL}${exhibit.image.url}`
         : '/placeholder.png';
 
     return (

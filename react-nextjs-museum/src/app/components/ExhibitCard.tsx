@@ -9,9 +9,10 @@ interface ExhibitCardProps {
 }
 
 export default function ExhibitCard({ item, baseUrl }: ExhibitCardProps) {
-  // Логика получения URL картинки
   const imageUrl = item.image?.url
-    ? `${baseUrl || process.env.NEXT_PUBLIC_STRAPI_URL}${item.image.url}`
+    ? item.image.url.startsWith('http')
+      ? item.image.url
+      : `${baseUrl || process.env.NEXT_PUBLIC_STRAPI_URL}${item.image.url}`
     : '/placeholder.png';
 
   return (

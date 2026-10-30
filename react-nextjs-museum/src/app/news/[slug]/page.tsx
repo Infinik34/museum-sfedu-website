@@ -17,7 +17,9 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
   const { title, excerpt, content, publishedAt, image } = newsItem;
 
   const imageUrl = image?.url
-    ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${image.url}`
+    ? image.url.startsWith('http')
+      ? image.url
+      : `${process.env.NEXT_PUBLIC_STRAPI_URL}${image.url}`
     : '/placeholder.png';
 
   return (
@@ -54,8 +56,8 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
         <div
           className="prose prose-invert prose-lg max-w-none text-gray-200 leading-relaxed"
           dangerouslySetInnerHTML={{
-  __html: sanitizeHtml(content?.trim() || '<p>Описание отсутствует.</p>'),
-}}
+            __html: sanitizeHtml(content?.trim() || '<p>Описание отсутствует.</p>'),
+          }}
         />
 
         {/* Кнопка назад */}

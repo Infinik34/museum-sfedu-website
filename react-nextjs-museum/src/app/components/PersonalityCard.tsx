@@ -10,7 +10,9 @@ interface PersonalityCardProps {
 
 export default function PersonalityCard({ item, baseUrl }: PersonalityCardProps) {
   const imageUrl = item.image?.url
-    ? `${baseUrl || process.env.NEXT_PUBLIC_STRAPI_URL}${item.image.url}`
+    ? item.image.url.startsWith('http')
+      ? item.image.url // Если это уже полный URL (например, Cloudinary), оставляем как есть
+      : `${baseUrl || process.env.NEXT_PUBLIC_STRAPI_URL}${item.image.url}` // Иначе склеиваем
     : '/placeholder.png';
 
   return (

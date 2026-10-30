@@ -16,36 +16,36 @@ type StrapiNews = {
   } | null;
 };
 
-type StrapiResponse = {
-  data: StrapiNews[];
-  meta: {
-    pagination: {
-      page: number;
-      pageSize: number;
-      pageCount: number;
-      total: number;
-    };
-  };
-};
+// type StrapiResponse = {
+//   data: StrapiNews[];
+//   meta: {
+//     pagination: {
+//       page: number;
+//       pageSize: number;
+//       pageCount: number;
+//       total: number;
+//     };
+//   };
+// };
 
-type StrapiSettingsNews = {
-  id: number;
-  documentId: string;
-  titleMainPage?: string;
-  descriptionMainPage?: string;
-  backgroundMainPage?: string;
-  publishedAt?: string;
-  titleDetailPage?: string;
-  descriptionDetailPage?: string;
-  backgroundDetailPage?: string;
-  backgroundForTitleMainPage?: string;
-};
+// type StrapiSettingsNews = {
+//   id: number;
+//   documentId: string;
+//   titleMainPage?: string;
+//   descriptionMainPage?: string;
+//   backgroundMainPage?: string;
+//   publishedAt?: string;
+//   titleDetailPage?: string;
+//   descriptionDetailPage?: string;
+//   backgroundDetailPage?: string;
+//   backgroundForTitleMainPage?: string;
+// };
 
-function getStrapiMedia(url: string | null): string {
-  if (!url) return '/placeholder.png';
-  if (url.startsWith('http')) return url;
-  return `${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`;
-}
+// function getStrapiMedia(url: string | null): string {
+//   if (!url) return '/placeholder.png';
+//   if (url.startsWith('http')) return url;
+//   return `${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`;
+// }
 
 export default async function NewsPage({
   searchParams,
