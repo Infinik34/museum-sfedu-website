@@ -289,7 +289,7 @@ export async function getPersonalityBySlug(slug: string) {
 
 //формат MM/DD/YYYY
 export async function getBookings() {
-  const res = await fetch('/api/bookings', {
+  const res = await fetch('/api/booking', {
     cache: 'no-store',
   });
 
