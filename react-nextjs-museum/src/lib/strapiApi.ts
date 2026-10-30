@@ -289,44 +289,15 @@ export async function getPersonalityBySlug(slug: string) {
 
 //формат MM/DD/YYYY
 export async function getBookings() {
-  const queryString = new URLSearchParams({
-    fields: 'date,time,isFullDay',
-    sort: 'date:asc',
-  }).toString();
-
-  const res = await fetch(
-    `${STRAPI_URL}/api/bookings?${queryString}`,
-    { cache: 'no-store' }
-  );
-
-  if (!res.ok) {
-    throw new Error(`Strapi API Error: ${res.status} - ${res.statusText}`);
-  }
-
-  const result = await res.json();
-
-  const now = new Date();
-  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-
-  const formattedData = result.data.map((item: any) => {
-    let formattedDate = item.date;
-
-    if (formattedDate && formattedDate.includes('/')) {
-      const [month, day, year] = formattedDate.split('/');
-      formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-    }
-
-    return {
-      ...item,
-      date: formattedDate,
-    };
+  const res = await fetch('/api/bookings', {
+    cache: 'no-store',
   });
 
-  const filteredData = formattedData.filter(
-    (item: any) => item.date >= todayStr
-  );
+  if (!res.ok) {
+    throw new Error(`Bookings API Error: ${res.status}`);
+  }
 
-  return { ...result, data: filteredData };
+  return res.json();
 }
 
 
