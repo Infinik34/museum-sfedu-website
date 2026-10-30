@@ -430,21 +430,13 @@ export async function getAboutPageSettings() {
 
 //формат MM/DD/YYYY
 export async function getCalendarEvents() {
-  const queryString = new URLSearchParams({
-    fields: 'date,time,info',
-    sort: 'date:asc',
-  }).toString();
-
-  const res = await fetch(
-    `${STRAPI_URL}/api/kalendar-sobytijs?${queryString}`,
-    { cache: 'no-store' }
-  );
+  const res = await fetch('/api/calendar-events', {
+    cache: 'no-store',
+  });
 
   if (!res.ok) {
-    throw new Error(`Strapi API Error: ${res.status} - ${res.statusText}`);
+    throw new Error(`Calendar API Error: ${res.status}`);
   }
 
-  const data = await res.json();
-
-  return data;
+  return res.json();
 }
