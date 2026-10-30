@@ -107,7 +107,7 @@ export default async function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {news.data.map((item) => (
+            {news?.data.map((item) => (
               <NewsCardHome key={item.documentId} item={item} />
             ))}
           </div>
@@ -126,7 +126,7 @@ export default async function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {exhibitCategories.map((cat) => (
+            {exhibitCategories?.map((cat) => (
               <Card
                 key={cat.slug}
                 className="bg-museum-dark border border-gray-800 p-6 hover:border-museum-blue/40 transition-all duration-300 group"
@@ -173,7 +173,7 @@ export default async function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {personalityCategories.map((cat) => (
+            {personalityCategories?.map((cat) => (
               <Card
                 key={cat.slug}
                 className="bg-museum-dark border border-gray-800 p-6 hover:border-museum-blue/40 transition-all duration-300 group"
