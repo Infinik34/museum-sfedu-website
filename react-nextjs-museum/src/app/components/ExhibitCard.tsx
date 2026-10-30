@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Card } from '@heroui/react';
 import { ExhibitItem } from '@/lib/strapiApi';
+import Image from 'next/image';
 
 interface ExhibitCardProps {
   item: ExhibitItem;
@@ -23,7 +24,7 @@ export default function ExhibitCard({ item, baseUrl }: ExhibitCardProps) {
 
           {/* Изображение с эффектом при наведении */}
           <div className="relative aspect-4/3 w-full overflow-hidden bg-gray-900 p-4">
-            <img
+            <Image
               src={imageUrl}
               alt={item.image?.alternativeText || item.title}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"

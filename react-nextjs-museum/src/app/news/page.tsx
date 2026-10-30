@@ -1,7 +1,5 @@
-
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button } from '@heroui/react';
 import { getNews, getNewsPageSettings } from '@/lib/strapiApi';
 import NewsDateFilter from '../components/NewsDateFilter';
 
@@ -123,7 +121,7 @@ export default async function NewsPage({
                   <div className="md:flex">
                     {/* Изображение */}
                     <div className="md:w-1/3 relative overflow-hidden aspect-4/3">
-                      <img
+                      <Image
                         src={imageUrl}
                         alt={image?.alternativeText || title}
                         className="w-full h-full object-cover"

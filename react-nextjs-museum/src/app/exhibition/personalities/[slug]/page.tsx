@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPersonalityBySlug, PersonalityCategoryItem, PersonalityItem } from '@/lib/strapiApi';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+import Image from 'next/image';
 
 export default async function PersonalityPage({ params }: {
     params: Promise<{ slug: string }>
@@ -61,7 +62,7 @@ export default async function PersonalityPage({ params }: {
 
                 {/* Изображение */}
                 <figure className="mb-10 rounded-lg overflow-hidden bg-gray-900 border border-gray-800">
-                    <img
+                    <Image
                         src={imageUrl}
                         alt={exhibit.image?.alternativeText || exhibit.name}
                         className="w-full h-auto object-contain max-h-[600px]"

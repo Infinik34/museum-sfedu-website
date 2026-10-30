@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getNewsBySlug } from '@/lib/strapiApi';
 import sanitizeHtml from 'sanitize-html';
+import Image from 'next/image';
 
 export default async function NewsDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -41,7 +42,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
         {/* Главное фото */}
         {image && (
           <figure className="relative bg-museum-dark aspect-4/3 rounded-2xl overflow-hidden border border-gray-800 mb-10 shadow-2xl shadow-museum-blue/5">
-            <img
+            <Image
               src={imageUrl}
               alt={image.alternativeText || title}
               className="absolute inset-0 h-full w-full object-container"

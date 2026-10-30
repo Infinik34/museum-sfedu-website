@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Card } from '@heroui/react';
 import { PersonalityItem } from '@/lib/strapiApi';
+import Image from 'next/image';
 
 interface PersonalityCardProps {
   item: PersonalityItem;
@@ -22,11 +23,13 @@ export default function PersonalityCard({ item, baseUrl }: PersonalityCardProps)
 
           {/* Изображение с эффектом при наведении */}
           <div className="relative aspect-4/3 w-full overflow-hidden bg-gray-900 p-4">
-            <img
+            <Image
               src={imageUrl}
               className="absolute inset-0 w-full h-full object-cover blur-xl opacity-50 scale-110"
+              loading="lazy"
+              alt=""
             />
-            <img
+            <Image
               src={imageUrl}
               alt={item.image?.alternativeText || item.name}
               className="relative z-10 w-full h-full object-contain"
