@@ -6,6 +6,12 @@ import { Calendar } from "@heroui/react";
 import { today, getLocalTimeZone, CalendarDate } from "@internationalized/date";
 import { getCalendarEvents } from "@/lib/strapiApi";
 
+interface Event {
+    date: string;
+    time: string;
+    info: string;
+}
+
 export default function EventsCalendar() {
     const [selectedDate, setSelectedDate] = useState<CalendarDate | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -21,8 +27,9 @@ export default function EventsCalendar() {
         const fetchEvents = async () => {
             try {
                 const json = await getCalendarEvents();
+                
                 if (json.data) {
-                    const formattedData = json.data.map((item) => ({
+                    const formattedData = json.data.map((item: Event) => ({
                         date: item.date,
                         time: item.time || 'Весь день',
                         info: item.info || 'Описание отсутствует',
