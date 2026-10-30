@@ -289,18 +289,28 @@ export async function getPersonalityBySlug(slug: string) {
 
 //формат MM/DD/YYYY
 export async function getBookings() {
-  const res = await fetchStrapi<{ data: any[] }>('/api/bookings', {
-    'fields': 'date,time,isFullDay',
-    'sort': 'date:asc',
-  });
+  const queryString = new URLSearchParams({
+    fields: 'date,time,isFullDay',
+    sort: 'date:asc',
+  }).toString();
+
+  const res = await fetch(
+    `${STRAPI_URL}/api/bookings?${queryString}`,
+    { cache: 'no-store' }
+  );
+
+  if (!res.ok) {
+    throw new Error(`Strapi API Error: ${res.status} - ${res.statusText}`);
+  }
+
+  const result = await res.json();
 
   const now = new Date();
   const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
-  const formattedData = res.data.map((item) => {
+  const formattedData = result.data.map((item: any) => {
     let formattedDate = item.date;
 
-    // Нормализуем DD/MM/YYYY или MM/DD/YYYY в YYYY-MM-DD
     if (formattedDate && formattedDate.includes('/')) {
       const [month, day, year] = formattedDate.split('/');
       formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
@@ -312,11 +322,11 @@ export async function getBookings() {
     };
   });
 
-  const filteredData = formattedData.filter((item) => {
-    return item.date >= todayStr;
-  });
+  const filteredData = formattedData.filter(
+    (item: any) => item.date >= todayStr
+  );
 
-  return { ...res, data: filteredData };
+  return { ...result, data: filteredData };
 }
 
 
@@ -420,26 +430,21 @@ export async function getAboutPageSettings() {
 
 //формат MM/DD/YYYY
 export async function getCalendarEvents() {
-  const res = await fetchStrapi<{ data: any[] }>('/api/kalendar-sobytijs', {
-    'fields': 'date,time,info',
-    'sort': 'date:asc',
-  });
+  const queryString = new URLSearchParams({
+    fields: 'date,time,info',
+    sort: 'date:asc',
+  }).toString();
 
-  const formattedData = res.data.map((item) => {
-    let formattedDate = item.date;
+  const res = await fetch(
+    `${STRAPI_URL}/api/kalendar-sobytijs?${queryString}`,
+    { cache: 'no-store' }
+  );
 
-    if (formattedDate && formattedDate.includes('/')) {
-      const [month, day, year] = formattedDate.split('/');
-      formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-      // const [day, month, year] = formattedDate.split('/');
-      // formattedDate = `${year}-${month}-${day}`;
-    }
+  if (!res.ok) {
+    throw new Error(`Strapi API Error: ${res.status} - ${res.statusText}`);
+  }
 
-    return {
-      ...item,
-      date: formattedDate,
-    };
-  });
+  const data = await res.json();
 
-  return { ...res, data: formattedData };
+  return data;
 }
