@@ -70,15 +70,17 @@ export default function Footer() {
           <div>
             <h3 className="text-white text-xl font-semibold mb-4">Как нас найти</h3>
             <div className="bg-gray-800 rounded-xl overflow-hidden h-64">
-              <iframe
-                src="https://yandex.ru/map-widget/v1/?ll=38.9333%2C47.2221&z=17&pt=38.9333,47.2221,pm2blm&text=Политехнический+музей+ЮФУ"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                allowFullScreen
-                className="grayscale hover:grayscale-0 transition-all duration-300"
-                title="Карта музея"
-              ></iframe>
+              <div className="relative h-64 w-full overflow-hidden rounded-xl">
+                <iframe
+                  src="https://yandex.ru/map-widget/v1/?ll=38.939387%2C47.205612&mode=poi&poi%5Bpoint%5D=38.939223%2C47.205867&poi%5Buri%5D=ymapsbm1%3A%2F%2Forg%3Foid%3D37579314986&z=17"
+                  title="Политехнический музей ЮФУ на Яндекс Картах"
+                  width="100%"
+                  height="100%"
+                  frameBorder="0"
+                  allowFullScreen
+                  className="border-0"
+                />
+              </div>
             </div>
             <p className="text-sm text-gray-500 mt-3 text-center">
               ул. Чехова, 22, корпус «Б», 2-й подъезд
