@@ -109,7 +109,9 @@ export default async function NewsPage({
             } = item;
 
             const imageUrl = image?.url
-              ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${image.url}`
+              ? image.url.startsWith('http')
+                ? image.url
+                : `${process.env.NEXT_PUBLIC_STRAPI_URL}${image.url}`
               : '/placeholder.png';
 
             return (
@@ -185,9 +187,8 @@ export default async function NewsPage({
           <div className="flex justify-center gap-2 pt-8">
             {currentPage > 1 && (
               <Link
-                href={`/news?page=${currentPage - 1}${
-                  from ? `&from=${encodeURIComponent(from)}` : ''
-                }${to ? `&to=${encodeURIComponent(to)}` : ''}`}
+                href={`/news?page=${currentPage - 1}${from ? `&from=${encodeURIComponent(from)}` : ''
+                  }${to ? `&to=${encodeURIComponent(to)}` : ''}`}
               >
                 <span className="px-6 py-3 rounded-lg bg-museum-blue text-white hover:bg-blue-600 transition-colors">
                   Назад
@@ -197,9 +198,8 @@ export default async function NewsPage({
 
             {currentPage < meta.pagination.pageCount && (
               <Link
-                href={`/news?page=${currentPage + 1}${
-                  from ? `&from=${encodeURIComponent(from)}` : ''
-                }${to ? `&to=${encodeURIComponent(to)}` : ''}`}
+                href={`/news?page=${currentPage + 1}${from ? `&from=${encodeURIComponent(from)}` : ''
+                  }${to ? `&to=${encodeURIComponent(to)}` : ''}`}
               >
                 <span className="px-6 py-3 rounded-lg bg-museum-blue text-white hover:bg-blue-600 transition-colors">
                   Далее
